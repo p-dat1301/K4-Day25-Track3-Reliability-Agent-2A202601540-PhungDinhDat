@@ -28,9 +28,10 @@ scenarios:
     provider_overrides:
       primary: 1.0
   - name: primary_flaky_50
-    description: "Primary provider fails 50% — circuit should oscillate"
+    description: "Primary fails, recovers through half-open probe, then runs at 50% failure"
     provider_overrides:
       primary: 0.5
+    force_recovery: true
   - name: all_healthy
     description: "Baseline — both providers healthy"
     provider_overrides: {}
