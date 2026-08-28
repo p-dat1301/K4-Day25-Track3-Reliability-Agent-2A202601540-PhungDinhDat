@@ -10,6 +10,10 @@ def main() -> None:
     parser.add_argument("--metrics", default="reports/metrics.json")
     parser.add_argument("--out", default="reports/final_report.md")
     args = parser.parse_args()
+    output_path = Path(args.out)
+    if output_path.exists() and "TODO" not in output_path.read_text():
+        print(f"kept completed report at {args.out}")
+        return
     metrics = json.loads(Path(args.metrics).read_text())
     lines = [
         "# Day 10 Reliability Final Report",
@@ -32,8 +36,8 @@ def main() -> None:
         "",
         "Explain what failed, why the fallback path worked or did not work, and what you would change before production.",
     ]
-    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.out).write_text("\n".join(lines))
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text("\n".join(lines))
     print(f"wrote {args.out}")
 
 
